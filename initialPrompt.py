@@ -1,7 +1,7 @@
 import requests
 
 from bs4 import BeautifulSoup
-from urllib.parse import urlparse
+
 
 # Valid web scarping URLs (tested)
 realtor = 'realtor.com'
@@ -30,19 +30,19 @@ class userData():
         if realtor.lower() in url or domainAU.lower() in url:
             valid = True
             
-            urlCheck = urlparse(url)
+            urlCheck = requests.get(url)
             urlValid = False
             
             # Verifies that URL is valid
-            if urlCheck.scheme and urlCheck.netloc:
+            if urlCheck.status_code == 200:
                 urlValid = True
                 print("URL Good")
             else:
                 if urlValid == False:
                     while urlValid == False:
                         url = input("Enter a valid URL: ")
-                        urlCheck = urlparse(url)
-                        if urlCheck.scheme and urlCheck.netloc:
+                        
+                        if urlCheck.status_code == 200:
                             urlValid = True
                             print("URL is now good")
                             
@@ -54,20 +54,21 @@ class userData():
                 if realtor.lower() in url or domainAU.lower() in url:
                     valid = True
                     
-                    urlCheck = urlparse(url)
+                    urlCheck = requests.get(url)
                     urlValid = False
 
-                    if urlCheck.scheme and urlCheck.netloc:
+                    if urlCheck.status_code == 200:
                         urlValid = True
                         print("URL Good")
                     else:
                         if urlValid == False:
                             while urlValid == False:
                                 url = input("Enter a valid URL: ")
-                                urlCheck = urlparse(url)
-                                if urlCheck.scheme and urlCheck.netloc:
+                                urlCheck = requests.get(url)
+                                if urlCheck.status_code == 200:
                                     urlValid = True
                                     print("URL is now good")
+                                    
 
         else: 
             return "An error has occurred. Quitting"             
